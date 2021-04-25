@@ -5,21 +5,11 @@ import { api } from '../services/api';
 import { format, parseISO } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { convertDurationToTimeString } from '../utils/convertDurationToTimeString';
-import { Episode } from './types/Episode'
+import { Episode } from '../types/Episode'
 
 import styles from './home.module.scss'
-
-// type Episode = {
-//   id: string;
-//   title: string;
-//   thumbnail: string;
-//   members: string;
-//   description: string;
-//   duration: number;
-//   durationAsString: string;
-//   url: string;
-//   publishedAt: string;
-// }
+import { useContext } from 'react';
+import { PlayerContext } from '../contexts/PlayerContext';
 
 type HomeProps = {
   // episodes: Array<Episode>;
@@ -29,6 +19,7 @@ type HomeProps = {
 
 // SSG
 export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
+  const { play} = useContext(PlayerContext);
   return (
     <div className={styles.homepage}>
       <section className={styles.latestEpisodes}>
@@ -54,7 +45,7 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                   <span>{episode.durationAsString}</span>
                 </div>
 
-                <button type="button">
+                <button type="button" onClick={() => play(episode)}>
                   <img src="/play-green.svg" alt="Tocar" />
                 </button>
               </li>
